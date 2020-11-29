@@ -5,6 +5,7 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
@@ -16,7 +17,23 @@ import org.apache.shiro.util.ByteSource;
 public class CustomerMd5Realm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        return null;
+
+        System.out.println("===========================");
+        // 1. 基于角色的权限控制
+        // 获取身份信息（即用户名）
+        String primaryPrincipal = (String) principals.getPrimaryPrincipal();
+        System.out.println("primaryPrincipal = " + primaryPrincipal);
+        // 根据身份信息（用户名）获取当前用户的角色信息以及权限信息   xiaochen admin user
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        // 将数据库中查询到的角色信息赋值给权限对象
+        simpleAuthorizationInfo.addRole("admin");
+        simpleAuthorizationInfo.addRole("user");
+
+        // 2. 基于资源访问的权限控制
+        simpleAuthorizationInfo.addStringPermission("user:*:01");// 表示当前用户只对01用户具有所有操作权限
+        simpleAuthorizationInfo.addStringPermission("product:create");// 表示当前用户有对product的创建权限
+
+        return simpleAuthorizationInfo;
     }
 
     @Override
