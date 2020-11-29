@@ -6,6 +6,7 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.mgt.DefaultSecurityManager;
+import org.apache.shiro.realm.Realm;
 import org.apache.shiro.realm.text.IniRealm;
 import org.apache.shiro.subject.Subject;
 
@@ -43,5 +44,8 @@ public class TestAuthenticator {
             e.printStackTrace();
             System.out.println("认证失败：未知异常！！");
         }
+
+        Realm realm;
+
     }
 }
