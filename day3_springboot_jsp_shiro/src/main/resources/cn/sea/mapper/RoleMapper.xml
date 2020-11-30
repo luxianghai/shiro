@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 的值为 dao接口 的全限定类名 -->
+<mapper namespace="cn.sea.dao.RoleDAO">
+
+    <!-- 根据角色id查询权限信息集合 -->
+    <select id="findPermsByRoleId" parameterType="string" resultMap="role_perm_map">
+        SELECT r.id rid, r.rolename, p.id pid, p.permname, p.permurl FROM `t_role` r
+        LEFT JOIN `t_role_prem` rp
+        ON r.id=rp.roleid
+        LEFT JOIN `t_permission` p
+        ON rp.premid = p.id
+        WHERE r.id = #{rid}
+    </select>
+
+    <resultMap id="role_perm_map" type="cn.sea.entity.Role">
+        <id column="rid" property="id"/>
+        <result column="rolename" property="rolename"/>
+        <!-- 权限信息
+            property: Role集合 在 User 实体类中的属性名
+            javaType：Role集合 在 User 实体类中的数据类型，可不写
+            ofType：对应的实体类
+        -->
+        <collection property="permissions" ofType="cn.sea.entity.Permission">
+            <id property="id" column="pid"/>
+            <result property="permname" column="permname"/>
+            <result property="permurl" column="permurl"/>
+        </collection>
+    </resultMap>
+
+</mapper>

@@ -32,9 +32,13 @@
                     <shiro:hasPermission name="user:update:*">
                         <li><a href="">修改</a></li>
                     </shiro:hasPermission>
-                    <!-- 查询权限 -->
+                    <!-- 查询用户权限 -->
                     <shiro:hasPermission name="user:find:*">
-                        <li><a href="">查询</a></li>
+                        <li><a href="">查询用户</a></li>
+                    </shiro:hasPermission>
+                    <!-- 查询订单权限 -->
+                    <shiro:hasPermission name="user:order:*">
+                        <li><a href="">查询订单</a></li>
                     </shiro:hasPermission>
                     <!-- 公共权限 -->
                     <li><a href="">公共权限</a></li>

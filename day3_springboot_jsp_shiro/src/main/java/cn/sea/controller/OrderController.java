@@ -17,7 +17,7 @@ public class OrderController {
     @ApiOperation("添加订单")
     @PostMapping("/save")
     //@RequiresRoles({"admin","user"}) // 用于判断哪些角色能访问该方法,写多个角色时代表同时具有才能访问
-    @RequiresPermissions({"user:delete:1"}) // 权限控制字符串
+    @RequiresPermissions({"user:*:*"}) // 权限控制字符串
     public String save() {
 
         System.out.println("进入 save 方法 . . .");

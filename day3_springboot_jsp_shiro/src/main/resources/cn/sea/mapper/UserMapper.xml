@@ -16,4 +16,30 @@
         WHERE `username` LIKE #{username}
     </select>
 
+
+    <!-- 根据用户名（唯一标识）查询用户所有角色信息  一对多 -->
+    <select id="findRolesByUsername" parameterType="string" resultMap="user_role_map">
+        SELECT u.id uid, u.username, r.id rid, r.rolename
+        FROM `t_user` u
+        LEFT JOIN `t_user_role` ur
+        ON u.id = ur.userid
+        LEFT JOIN `t_role` r
+        ON ur.roleid = r.id
+        WHERE u.username = #{username}
+    </select>
+    
+    <resultMap id="user_role_map" type="cn.sea.entity.User">
+        <id column="uid" property="id"/>
+        <result column="username" property="username"/>
+        <!-- 角色信息
+            property: Role集合 在 User 实体类中的属性名
+            javaType：Role集合 在 User 实体类中的数据类型，可不写
+            ofType：对应的实体类
+        -->
+        <collection property="roles" javaType="list" ofType="cn.sea.entity.Role">
+            <id property="id" column="rid" />
+            <result property="rolename" column="rolename"/>
+        </collection>
+    </resultMap>
+
 </mapper>
