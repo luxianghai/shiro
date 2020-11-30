@@ -28,7 +28,7 @@ public class CustomerRealm extends AuthorizingRealm {
 
         // 获取身份信息
         String primaryPrincipal = (String) principals.getPrimaryPrincipal();
-        System.out.println("调用授权验证："+primaryPrincipal);
+        //System.out.println("调用授权验证："+primaryPrincipal);
         // 1. 根据主身份信息获取角色 和 权限信息
         // 1.1 从工厂中拿到 UserService 和 RoleService
         UserService userService = (UserService) ApplicationContextUtils.getBean("userServiceImpl");
@@ -41,7 +41,7 @@ public class CustomerRealm extends AuthorizingRealm {
             // 授权角色信息
             user.getRoles().forEach( role -> {
                 simpleAuthorizationInfo.addRole(role.getRolename());
-                System.out.println( "role ---> " +  role);
+                //System.out.println( "role ---> " +  role);
                 // 授权权限信息
                 //  调用 RoleService 根据用户名（唯一标识）查询用户的角色信息
                 Role permsByRoleId = roleService.findPermsByRoleId(role.getId());

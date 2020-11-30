@@ -2,6 +2,7 @@ package cn.sea.config;
 
 import cn.sea.shiro.realms.CustomerRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -68,7 +69,15 @@ public class ShiroConfig {
         credentialsMatcher.setHashIterations(1024);
         // 1.3 为自定义 realm 设置凭证器
         customerRealm.setCredentialsMatcher(credentialsMatcher);
-        return customerRealm;
+
+        // 开启缓存管理
+        customerRealm.setCacheManager(new EhCacheManager());
+        customerRealm.setCachingEnabled(true); // 开启全局的缓存管理
+        customerRealm.setAuthenticationCachingEnabled(true); // 开启认证的缓存
+        customerRealm.setAuthenticationCacheName("authenticationCache"); // 设置认证缓存的名字
+        customerRealm.setAuthorizationCachingEnabled(true); // 开启授权的缓存
+        customerRealm.setAuthorizationCacheName("authorizationCache"); // 设置授权缓存的名字
+     return customerRealm;
     }
 
 }
