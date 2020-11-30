@@ -3,10 +3,17 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace 的值为 dao接口 的全限定类名 -->
-<mapper namespace="cn.sea.dao.IUserDao">
+<mapper namespace="cn.sea.dao.UserDAO">
 
-    <select id="findAll" resultType="cn.sea.domain.User">
-        select * from user
+    <!-- 添加用户 -->
+    <insert id="save" parameterType="cn.sea.entity.User" useGeneratedKeys="true" keyProperty="id" >
+        INSERT INTO `t_user` VALUES(#{id}, #{username}, #{password}, #{salt})
+    </insert>
+
+    <!-- 根据用户名查找用户 -->
+    <select id="findByUsername" parameterType="string" resultType="cn.sea.entity.User">
+        SELECT `id`,`username`,`password`,`salt` FROM `t_user`
+        WHERE `username` LIKE #{username}
     </select>
 
 </mapper>

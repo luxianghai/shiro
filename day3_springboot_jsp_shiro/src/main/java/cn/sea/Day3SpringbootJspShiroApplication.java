@@ -1,9 +1,12 @@
-package cn.sea.day3_springboot_jsp_shiro;
+package cn.sea;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 @SpringBootApplication
+@MapperScan("cn.sea.dao")
 public class Day3SpringbootJspShiroApplication {
 
     public static void main(String[] args) {
