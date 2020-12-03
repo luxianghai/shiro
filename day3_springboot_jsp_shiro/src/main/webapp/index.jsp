@@ -12,6 +12,16 @@
 <body>
 <div>
     <h1>系统主页 1.0</h1>
+    <!-- 获取当前认证的用户身份唯一标识 -->
+    <h1>当前用户：<shiro:principal/></h1>
+    <shiro:authenticated>
+        认证之后展示的内容
+        <hr>
+    </shiro:authenticated>
+    <shiro:authenticated>
+        没有认证也能显示的内容
+        <hr>
+    </shiro:authenticated>
     <a href="${pageContext.request.contextPath}/user/logout">退出登录</a>
     <ul>
         <%-- 所有用户都能看到 用户管理 --%>

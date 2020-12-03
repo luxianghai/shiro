@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * 权限实体
  *      权限和角色是多对多的关系，所有需要使用集合来维护这种关系
@@ -16,7 +18,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Permission {
+public class Permission implements Serializable {
 
     @ApiModelProperty("主键id")
     private String id;

@@ -1,8 +1,8 @@
 package cn.sea.config;
 
+import cn.sea.shiro.cache.RedisCacheManager;
 import cn.sea.shiro.realms.CustomerRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -34,6 +34,7 @@ public class ShiroConfig {
         map.put("/user/login", "anon"); // 设置 /user/login 为公共资源, 受限资源应该放在公共资源之后
         map.put("/register.jsp", "anon"); // 放行
         map.put("/user/register", "anon"); // 放行
+        map.put("/user/getImage","anon"); // 放行 /user/getImage 资源
         //map.put("/index.jsp", "authc"); // key：资源路径   值：authc-->表示请求的这个资源需要认证和授权
         map.put("/**", "authc"); // /** 表示所有资源都需要认证，除了使用 setLoginUrl()设置的认证界面
 
@@ -71,8 +72,9 @@ public class ShiroConfig {
         customerRealm.setCredentialsMatcher(credentialsMatcher);
 
         // 开启缓存管理
-        customerRealm.setCacheManager(new EhCacheManager());
-        customerRealm.setCachingEnabled(true); // 开启全局的缓存管理
+        //customerRealm.setCacheManager(new EhCacheManager()); // 使用shiro默认的缓存管理器EhCacheManager
+        customerRealm.setCacheManager(new RedisCacheManager()); // 使用我们自定义的缓存管理器
+        customerRealm.setCachingEnabled(true);  // 开启全局缓存管理器
         customerRealm.setAuthenticationCachingEnabled(true); // 开启认证的缓存
         customerRealm.setAuthenticationCacheName("authenticationCache"); // 设置认证缓存的名字
         customerRealm.setAuthorizationCachingEnabled(true); // 开启授权的缓存

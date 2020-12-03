@@ -4,6 +4,7 @@ import cn.sea.entity.Role;
 import cn.sea.entity.User;
 import cn.sea.service.RoleService;
 import cn.sea.service.UserService;
+import cn.sea.shiro.salt.MyByteSource;
 import cn.sea.utils.ApplicationContextUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -13,7 +14,6 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.ByteSource;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
@@ -83,8 +83,10 @@ public class CustomerRealm extends AuthorizingRealm {
         User user = userService.findByUsername(principal);
 
         if( !ObjectUtils.isEmpty(user) ) { // 如果user不为null
-            // 参数1：身份信息 参数2：凭证信息 参数3：随机验  参数4：当前realm的名字
-            return new SimpleAuthenticationInfo(principal, user.getPassword(), ByteSource.Util.bytes(user.getSalt()), this.getName());
+            // 参数1：身份信息 参数2：凭证信息 参数3：随机盐  参数4：当前realm的名字
+            //return new SimpleAuthenticationInfo(principal, user.getPassword(), ByteSource.Util.bytes(user.getSalt()), this.getName());
+            // 因为我们插入的salt盐不能序列化，所以我们需要使用自己的接口来处理盐的序列化
+            return new SimpleAuthenticationInfo(principal, user.getPassword(),new MyByteSource(user.getSalt()), this.getName());
         }
 
         return null;
